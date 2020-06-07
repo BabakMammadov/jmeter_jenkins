@@ -1,0 +1,31 @@
+pipeline {
+    agent { label 'master'}
+
+    environment {
+    JMX_FILE_NAME = 'loadtesting.jmx'
+    }
+
+    stages {
+        stage('Setup Jenkins job name') {
+            steps {
+                script {
+                    currentBuild.displayName = "${GIT_BRANCH}-${BUILD_NUMBER}"
+                }
+            }
+        }
+        stage ('Execute Jmeter Load Test Scripts') {
+            steps {
+                sshagent(credentials : ['jmeter-load-test-ssh-key']) {
+                    sh 'ssh -o StrictHostKeyChecking=no jenkins@10.0.0.1 \
+                    -t "cd /opt/ && \
+                    sudo rm -rf loadtesting &&  \
+                    sudo git clone -b master ssh://git@bitbucket.example.az:7999/dev/loadtesting.git && \
+                    cd  loadtesting && \
+                    sudo  git checkout -f ${GIT_BRANCH} && \
+                    sudo bash ./executejmeter.sh ${GIT_BRANCH} ${JMX_FILE_NAME} && \
+                    cd ../ && sudo rm -rf loadtesting"'
+                }
+            }
+        }
+    }   
+}
