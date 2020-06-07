@@ -7,7 +7,7 @@ While we want to load testing  our services, firstly we create load test scenari
 Above mentioned steps for load testing is very time consuming and  tedious task for different projects. These steps should be automated completely.
 
 ### How does it work: 
-We create jmeter jmx  script with it's dependencies in our local env. By pushing our code to bitbucket,  trigger fires up and call  jenkins multibranch pipeline api.(repo branch names are appropriate for different projects in our example). Then jenkins job logins  ssh passwordless to jmeter master and executing "executejmeter.sh branchname jmxfilename" script. Load test report url generated and by clicking on the url you will see  report. Script defination is noted as comment in script file. If you scale your slave server only you will need to add new server ip to ip.txt file
+We create jmeter jmx  script with it's dependencies in our local env. By pushing our code to bitbucket,  trigger fires up and call  jenkins multibranch pipeline api.(repo branch names are appropriate for different projects in our example). Then jenkins job logins  ssh passwordless to jmeter master and executing "executejmeter.sh branchname jmxfilename" script. Load test report url generated and by clicking on the url you will see  report. Script defination is noted as comment in script file. If you scale your slave server only you will need to add new server ip to ip.txt file. Additionaly,  you can use influxdb,grafana or Taurus  for reporting
 
 ### Example Report Home  UI 
 ![Screenshot](example_report.png)
